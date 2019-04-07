@@ -93,12 +93,6 @@ PhysicalNumber& ariel::operator+= (const PhysicalNumber& other) {
     return *a;
 }
 
-
-//Unary-Addition operator: example- physicalNumber + 3;
-const PhysicalNumber& ariel::PhysicalNumber::operator+ (const float other) {
-    return PhysicalNumber(_amount+other, _unit);
-}
-
 //Subtraction operator:
 const PhysicalNumber ariel::PhysicalNumber::operator- (const PhysicalNumber& other) {
     if(notEquals(_dimension, other._dimension)){
@@ -143,10 +137,18 @@ PhysicalNumber& ariel::operator-= (const PhysicalNumber& other) {
     return *a;
 }
 
-//Unary-Addition operator: example-physicalNumber - 3;
-const PhysicalNumber& ariel::PhysicalNumber::operator-(const float other) {
-    return PhysicalNumber(_amount-other, _unit);
+//Overloaded minus (-) operator
+PhysicalNumber operator- () {
+    _amount = -_amount;
+    return PhysicalNumber(_amount, _unit);
 }
+
+//Overloaded plus (+) operator
+PhysicalNumber operator+ () {
+    _amount = +_amount;
+    return PhysicalNumber(_amount, _unit);
+}
+ 
 
 //Equals operator:    
 bool operator== (const PhysicalNumber& b) {
