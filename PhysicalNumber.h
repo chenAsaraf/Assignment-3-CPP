@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include <stdexcept>
@@ -42,6 +43,8 @@ namespace ariel{
         PhysicalNumber& operator-=(const PhysicalNumber& other);
         const PhysicalNumber& operator+(const double other);
         const PhysicalNumber& operator-(const double other);
+        PhysicalNumber operator- ();
+        PhysicalNumber operator+ ();
         bool operator== (const PhysicalNumber& b);
         bool operator> (const PhysicalNumber& b);
         bool operator< (const PhysicalNumber& b);
