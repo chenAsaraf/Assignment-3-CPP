@@ -23,6 +23,14 @@ int main() {
     PhysicalNumber b(300, Unit::M);
     PhysicalNumber c(2, Unit::HOUR);
     PhysicalNumber d(30, Unit::MIN);
+    PhysicalNumber e(100, Unit::KM);
+    PhysicalNumber f(999, Unit::M);
+    PhysicalNumber g(5, Unit::HOUR);
+    PhysicalNumber h(50, Unit::MIN);
+    PhysicalNumber i(22, Unit::KM);
+    PhysicalNumber g(395, Unit::M);
+    PhysicalNumber k(16, Unit::HOUR);
+    PhysicalNumber l(17, Unit::MIN);
 
     testcase
     .setname("Basic output")
@@ -51,6 +59,21 @@ int main() {
 
     // YOUR TESTS - INSERT AS MANY AS YOU WANT
 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////
       .setname("...")
 
       .print(cout, /*show_grade=*/false);
