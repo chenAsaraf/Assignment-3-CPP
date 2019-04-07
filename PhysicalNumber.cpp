@@ -9,6 +9,7 @@ bool ariel::notEquals(const Dimension& alpha ,const Dimension& beta){
     if(alpha!=beta) return true;
 }
 
+//Construcotr of Physical Number:
 ariel::PhysicalNumber::PhysicalNumber(float amount, Unit some_unit){
     switch(some_unit){
         case Unit::KM: Dimension::Length; 
@@ -24,16 +25,131 @@ ariel::PhysicalNumber::PhysicalNumber(float amount, Unit some_unit){
     _amount = amount;
 }
 
-bool ariel::PhysicalNumber::IsKM() const { return _unit == Unit::KM; }
-bool ariel::PhysicalNumber::IsM() const { return _unit == Unit::M; }
-bool ariel::PhysicalNumber::IsCM() const { return _unit == Unit::CM; }
-bool ariel::PhysicalNumber::IsSEC() const { return _unit == Unit::SEC; }
-bool ariel::PhysicalNumber::IsMIN() const { return _unit == Unit::MIN; }
-bool ariel::PhysicalNumber::IsHOUR() const { return _unit == Unit::HOUR; }
-bool ariel::PhysicalNumber::IsG() const { return _unit == Unit::G; }
-bool ariel::PhysicalNumber::IsKG() const { return _unit == Unit::KG; }
-bool ariel::PhysicalNumber::IsTON() const { return _unit == Unit::TON; }
+/*~ Operators: ~*/
 
+//Output operator:
+ostream& ariel::operator<< (ostream& os, const PhysicalNumber& num) {
+    string printUnit = "";
+    switch(num._unit){
+        case Unit::KM: printUnit = "[km]"; 
+        case Unit::M: printUnit = "[m]";
+        case Unit::CM: printUnit = "[cm]";
+        case Unit::SEC: printUnit = "[sec]";
+        case Unit::HOUR: printUnit = "[hour]";
+        case Unit::G: printUnit = "[g]";
+        case Unit::KG: printUnit = "[kg]";
+        case Unit::TON: printUnit = "[ton]";
+        default: printUnit = "[deafult]"; //need to correct, case of cout << a+b << endl;
+    }
+    return os << num._amount << '[' << printUnit << ']';
+}
+
+//Input operator, example: istringstream input("700[kg]"); input >> a;
+istream& ariel::operator>> (istream& is, PhysicalNumber& num){
+    is>> num._amount; //need to correct
+    return is;
+}
+
+//Addition (connection) operator:
+const PhysicalNumber ariel::PhysicalNumber::operator+ (const PhysicalNumber& other) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }
+    else{
+        float toAdd = other._amount;
+        switch(other._unit) {
+            case Unit::KM:  return PhysicalNumber(_amount + _km(toAdd), _unit);
+            case Unit::M:   return PhysicalNumber(_amount + _m(toAdd), _unit);
+            case Unit::CM:  return PhysicalNumber(_amount + _cm(toAdd), _unit);
+            case Unit::SEC: return PhysicalNumber(_amount + _sec(toAdd), _unit);
+            case Unit::MIN: return PhysicalNumber(_amount + _min(toAdd), _unit);
+            case Unit::HOUR:return PhysicalNumber(_amount + _hour(toAdd), _unit);
+            case Unit::G:   return PhysicalNumber(_amount + _g(toAdd), _unit);
+            case Unit::KG:  return PhysicalNumber(_amount + _kg(toAdd), _unit);
+            case Unit::TON: return PhysicalNumber(_amount + _ton(toAdd), _unit);
+        }
+    }
+}
+
+//Addition operator:
+PhysicalNumber& ariel::operator+= (const PhysicalNumber& other) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }  
+    float toAdd = other._amount;
+    switch (other._unit){
+        case Unit::KM:  a._amount = _amount + _km(toAdd);
+        case Unit::M:   a._amount = _amount + _m(toAdd);
+        case Unit::CM:  a._amount = _amount + _cm(toAdd);
+        case Unit::SEC: a._amount = _amount + _sec(toAdd);
+        case Unit::MIN: a._amount = _amount + _min(toAdd);
+        case Unit::HOUR:a._amount = _amount + _hour(toAdd);
+        case Unit::G:   a._amount = _amount + _g(toAdd);
+        case Unit::KG:  a._amount = _amount + _kg(toAdd);
+        case Unit::TON: a._amount = _amount + _ton(toAdd);
+    }
+    return *a;
+}
+
+
+//Unary-Addition operator: example- physicalNumber + 3;
+const PhysicalNumber& ariel::PhysicalNumber::operator+ (const float other) {
+    return PhysicalNumber(_amount+other, _unit);
+}
+
+//Subtraction operator:
+const PhysicalNumber ariel::PhysicalNumber::operator- (const PhysicalNumber& other) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }
+    else{
+        float minus = other._amount;
+        switch(other._unit) {
+            case Unit::KM:  return PhysicalNumber(_amount - _km(minus), _unit);
+            case Unit::M:   return PhysicalNumber(_amount - _m(minus), _unit);
+            case Unit::CM:  return PhysicalNumber(_amount - _cm(minus), _unit);
+            case Unit::SEC: return PhysicalNumber(_amount - _sec(minus), _unit);
+            case Unit::MIN: return PhysicalNumber(_amount - _min(minus), _unit);
+            case Unit::HOUR:return PhysicalNumber(_amount - _hour(minus), _unit);
+            case Unit::G:   return PhysicalNumber(_amount - _g(minus), _unit);
+            case Unit::KG:  return PhysicalNumber(_amount - _kg(minus), _unit);
+            case Unit::TON: return PhysicalNumber(_amount - _ton(minus), _unit);
+        }
+    }
+}
+
+//Decreasing operator:
+PhysicalNumber& ariel::operator-= (const PhysicalNumber& other) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }  
+    float toSub = other._amount;
+    switch (other._unit){
+        case Unit::KM:  a._amount = _amount - _km(toSub);
+        case Unit::M:   a._amount = _amount - _m(toSub);
+        case Unit::CM:  a._amount = _amount - _cm(toSub);
+        case Unit::SEC: a._amount = _amount - _sec(toSub);
+        case Unit::MIN: a._amount = _amount - _min(toSub);
+        case Unit::HOUR:a._amount = _amount - _hour(toSub);
+        case Unit::G:   a._amount = _amount - _g(toSub);
+        case Unit::KG:  a._amount = _amount - _kg(toSub);
+        case Unit::TON: a._amount = _amount - _ton(toSub);
+    }
+    return *a;
+}
+
+//Unary-Addition operator: example-physicalNumber - 3;
+const PhysicalNumber& ariel::PhysicalNumber::operator-(const float other) {
+    return PhysicalNumber(_amount-other, _unit);
+}
+
+
+
+/*~ Conversion functions: ~*/
 
 float ariel::PhysicalNumber::_km(float kilometre){
     switch(this->_unit){
@@ -123,262 +239,4 @@ float ariel::PhysicalNumber::_ton(float tons){
     }
     cout << "arrived at a place that was not suppose to" << endl;
     return 0;
-}
-
-ostream& ariel::operator<<(ostream& os, const PhysicalNumber& num) {
-    string printUnit = "";
-    switch(num._unit){
-        case Unit::KM: printUnit = "[km]"; 
-        case Unit::M: printUnit = "[m]";
-        case Unit::CM: printUnit = "[cm]";
-        case Unit::SEC: printUnit = "[sec]";
-        case Unit::HOUR: printUnit = "[hour]";
-        case Unit::G: printUnit = "[g]";
-        case Unit::KG: printUnit = "[kg]";
-        case Unit::TON: printUnit = "[ton]";
-        default: printUnit = "[deafult]"; //need to correct, case of cout << a+b << endl;
-    }
-    return os << num._amount << '[' << printUnit << ']';
-}
-
-    //Input operator, example: istringstream input("700[kg]"); input >> a;
-istream& ariel::operator>> (istream& is, PhysicalNumber& num){
-    is>> num._amount; //need to correct
-    return is;
-}
-
-const PhysicalNumber ariel::PhysicalNumber::operator+(const PhysicalNumber& other) {
-    if(notEquals(_dimension, other._dimension)){
-        cout << "exception cout" << endl;
-        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
-    }
-    else{
-        float toAdd = other._amount;
-        switch(other._unit) {
-            case Unit::KM:  return PhysicalNumber(_amount + _km(toAdd), _unit);
-            case Unit::M:   return PhysicalNumber(_amount + _m(toAdd), _unit);
-            case Unit::CM:  return PhysicalNumber(_amount + _cm(toAdd), _unit);
-            case Unit::SEC: return PhysicalNumber(_amount + _sec(toAdd), _unit);
-            case Unit::MIN: return PhysicalNumber(_amount + _min(toAdd), _unit);
-            case Unit::HOUR:return PhysicalNumber(_amount + _hour(toAdd), _unit);
-            case Unit::G:   return PhysicalNumber(_amount + _g(toAdd), _unit);
-            case Unit::KG:  return PhysicalNumber(_amount + _kg(toAdd), _unit);
-            case Unit::TON: return PhysicalNumber(_amount + _ton(toAdd), _unit);
-        }
-    }
-}
-
-const PhysicalNumber ariel::PhysicalNumber::operator-(const PhysicalNumber& other) {
-    if(notEquals(_dimension, other._dimension)){
-        cout << "exception cout" << endl;
-        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
-    }
-    else{
-        float minus = other._amount;
-        switch(other._unit) {
-            case Unit::KM:  return PhysicalNumber(_amount - _km(minus), _unit);
-            case Unit::M:   return PhysicalNumber(_amount - _m(minus), _unit);
-            case Unit::CM:  return PhysicalNumber(_amount - _cm(minus), _unit);
-            case Unit::SEC: return PhysicalNumber(_amount - _sec(minus), _unit);
-            case Unit::MIN: return PhysicalNumber(_amount - _min(minus), _unit);
-            case Unit::HOUR:return PhysicalNumber(_amount - _hour(minus), _unit);
-            case Unit::G:   return PhysicalNumber(_amount - _g(minus), _unit);
-            case Unit::KG:  return PhysicalNumber(_amount - _kg(minus), _unit);
-            case Unit::TON: return PhysicalNumber(_amount - _ton(minus), _unit);
-        }
-    }
-}
-
-//the += operator 
-friend PhysicalNumber& ariel::operator+=(PhysicalNumber a ,const PhysicalNumber& other) {
-    if(notEquals(_dimension, other._dimension)){
-        cout << "exception cout" << endl;
-        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
-    }          
-    switch (other._unit)
-    {
-        case Unit::KM:
-            if(a._unit::KM)
-                a._amount=a._amount+other._amount;
-            if(a._unit::M)
-                a._amount=a._amount+(1000*other._amount);
-            if(a._unit::CM)
-                a._amount=a._amount+(100000*other._amount);
-            return *a;
-
-        case Unit::M:
-            if(a._unit::KM)
-                a._amount=a._amount+(1000*other._amount);
-            if(a._unit::M)
-                a._amount=a._amount+other._amount;
-            if(a._unit::CM)
-                a._amount=a._amount+(0.01*other._amount);
-            return *a;
-
-        case Unit::cm:
-            if(a._unit::KM)
-                a._amount=a._amount+(100000*other._amount);
-            if(a._unit::M)
-                a._amount=a._amount+(100*other._amount);
-            if(a._unit::CM)
-                a._amount=a._amount+other._amount;
-            return *a;
-
-        case Unit::TON:
-            if(a._unit::TON)
-                a._amount=a._amount+other._amount;
-            if(a._unit::KG)
-                a._amount=a._amount+(1000*other._amount);
-            if(a._unit::G)
-                a._amount=a._amount+(1000000*other._amount);
-            return *a;
-
-        case Unit::KG:
-            if(a._unit::TON)
-                a._amount=a._amount+(1000*other._amount);
-            if(a._unit::KG)
-                a._amount=a._amount+other._amount;
-            if(a._unit::G)
-                a._amount=a._amount+(0.001*other._amount);
-            return *a;
-
-        case Unit::G:
-            if(a._unit::TON)
-                a._amount=a._amount+(1000000*other._amount);
-            if(a._unit:KG)
-                a._amount=a._amount+(1000*other._amount);
-            if(a._unit::G)
-                a._amount=a._amount+other._amount;
-            return *a;
-
-        case Unit::HOUR:
-            if(a._unit::HOUR)
-                a._amount=a._amount+other._amount;
-            if(a._unit::MIN)
-                a._amount=a._amount+(60*other._amount);
-            if(a._unit::SEC)
-                a._amount=a._amount+(3600*other._amount);
-            return *a;
-
-        case Unit::MIN:  
-            if(a._unit::HOUR)
-                a._amount=a._amount+(60*other._amount);
-            if(a._unit::MIN)
-                a._amount=a._amount+other._amount;
-            if(a._unit::SEC)
-                a._amount=a._amount+(0.16667*other._amount);
-            return *a;
-
-        case Unit::SEC:
-            if(a._unit::HOUR)
-                a._amount=a._amount+(3600*other._amount);
-            if(a._unit:MIN)
-                a._amount=a._amount+(60*other._amount);
-            if(a._unit::SEC)
-                a._amount=a._amount+other._amount;
-            return *a;
-        default:
-            return *a;
-    }
-}
-
-//the =- operator:
-    friend PhysicalNumber& ariel::operator-=(PhysicalNumber a ,const PhysicalNumber& other) {
-    if(notEquals(_dimension, other._dimension)){
-        cout << "exception cout" << endl;
-        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
-    }          
-    switch (other._unit)
-    {
-        case Unit::KM:
-            if(a._unit::KM)
-                a._amount=a._amount-other._amount;
-            if(a._unit::M)
-                a._amount=a._amount-(1000*other._amount);
-            if(a._unit::CM)
-                a._amount=a._amount-(100000*other._amount);
-            return *a;
-
-        case Unit::M:
-            if(a._unit::KM)
-                a._amount=a._amount-(1000*other._amount);
-            if(a._unit::M)
-                a._amount=a._amount-other._amount;
-            if(a._unit::CM)
-                a._amount=a._amount-(0.01*other._amount);
-            return *a;
-
-        case Unit::cm:
-            if(a._unit::KM)
-                a._amount=a._amount-(100000*other._amount);
-            if(a._unit::M)
-                a._amount=a._amount-(100*other._amount);
-            if(a._unit::CM)
-                a._amount=a._amount-other._amount;
-            return *a;
-
-        case Unit::TON:
-            if(a._unit::TON)
-                a._amount=a._amount-other._amount;
-            if(a._unit::KG)
-                a._amount=a._amount-(1000*other._amount);
-            if(a._unit::G)
-                a._amount=a._amount-(1000000*other._amount);
-            return *a;
-
-        case Unit::KG:
-            if(a._unit::TON)
-                a._amount=a._amount-(1000*other._amount);
-            if(a._unit::KG)
-                a._amount=a._amount-other._amount;
-            if(a._unit::G)
-                a._amount=a._amount-(0.001*other._amount);
-            return *a;
-
-        case Unit::G:
-            if(a._unit::TON)
-                a._amount=a._amount-(1000000*other._amount);
-            if(a._unit:KG)
-                a._amount=a._amount-(1000*other._amount);
-            if(a._unit::G)
-                a._amount=a._amount-other._amount;
-            return *a;
-
-        case Unit::HOUR:
-            if(a._unit::HOUR)
-                a._amount=a._amount-other._amount;
-            if(a._unit::MIN)
-                a._amount=a._amount-(60*other._amount);
-            if(a._unit::SEC)
-                a._amount=a._amount-(3600*other._amount);
-            return *a;
-
-        case Unit::MIN:  
-            if(a._unit::HOUR)
-                a._amount=a._amount-(60*other._amount);
-            if(a._unit::MIN)
-                a._amount=a._amount-other._amount;
-            if(a._unit::SEC)
-                a._amount=a._amount-(0.16667*other._amount);
-            return *a;
-        case Unit::SEC:
-            if(a._unit::HOUR)
-                a._amount=a._amount-(3600*other._amount);
-            if(a._unit:MIN)
-                a._amount=a._amount-(60*other._amount);
-            if(a._unit::SEC)
-                a._amount=a._amount-other._amount;
-            return *a;
-        default:
-            return *a;
-    }
-}
-
-//the unary+
-const PhysicalNumber& ariel::PhysicalNumber::operator+(const double other) {
-    return PhysicalNumber((this->_amount)+other, this->_unit);
-}
-//the unary-
-const PhysicalNumber& ariel::PhysicalNumber::operator-(const double other) {
-    return PhysicalNumber((this->_amount)-other, this->_unit);
 }
