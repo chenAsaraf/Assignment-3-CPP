@@ -114,6 +114,7 @@ const PhysicalNumber ariel::PhysicalNumber::operator- (const PhysicalNumber& oth
             case Unit::SEC: return PhysicalNumber(_amount - _sec(minus), _unit);
             case Unit::MIN: return PhysicalNumber(_amount - _min(minus), _unit);
             case Unit::HOUR:return PhysicalNumber(_amount - _hour(minus), _unit);
+
             case Unit::G:   return PhysicalNumber(_amount - _g(minus), _unit);
             case Unit::KG:  return PhysicalNumber(_amount - _kg(minus), _unit);
             case Unit::TON: return PhysicalNumber(_amount - _ton(minus), _unit);
@@ -147,7 +148,80 @@ const PhysicalNumber& ariel::PhysicalNumber::operator-(const float other) {
     return PhysicalNumber(_amount-other, _unit);
 }
 
+//Equals operator:    
+bool operator== (const PhysicalNumber& b) {
+    // this implementation can cause problems with
+     // double precision (== for doubles)
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }
+    else{
+        switch(b._unit){
+        case Unit::KM:  return (_amount == _km(b.amount)); 
+        case Unit::M:   return (_amount == _m(b.amount));
+        case Unit::CM:  return (_amount == _cm(b.amount));
+        case Unit::SEC: return (_amount == _sec(b.amount));
+        case Unit::HOUR:return (_amount == _hour(b.amount));
+        case Unit::G:   return (_amount == _g(b.amount));
+        case Unit::KG:  return (_amount == _kg(b.amount));
+        case Unit::TON: return (_amount == _ton(b.amount));
+    }
+    cout << "arrived at a place that was not suppose to" << endl;
+    return false;
+}
+ 
+//Greater then operator:
+bool operator> (const PhysicalNumber& b) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }
+    else{
+        switch(b._unit){
+        case Unit::KM:  return (_amount > _km(b.amount)); 
+        case Unit::M:   return (_amount > _m(b.amount));
+        case Unit::CM:  return (_amount > _cm(b.amount));
+        case Unit::SEC: return (_amount > _sec(b.amount));
+        case Unit::HOUR:return (_amount > _hour(b.amount));
+        case Unit::G:   return (_amount > _g(b.amount));
+        case Unit::KG:  return (_amount > _kg(b.amount));
+        case Unit::TON: return (_amount > _ton(b.amount));
+    }
+    cout << "arrived at a place that was not suppose to" << endl;
+    return false;
+}
 
+//Smaller then oerator:
+bool operator< (const PhysicalNumber& b) {
+    if(notEquals(_dimension, other._dimension)){
+        cout << "exception cout" << endl;
+        throw std::invalid_argument("error, the dimension is not equals and you're fired.");
+    }
+    else{
+        switch(b._unit){
+        case Unit::KM:  return (_amount < _km(b.amount)); 
+        case Unit::M:   return (_amount < _m(b.amount));
+        case Unit::CM:  return (_amount < _cm(b.amount));
+        case Unit::SEC: return (_amount < _sec(b.amount));
+        case Unit::HOUR:return (_amount < _hour(b.amount));
+        case Unit::G:   return (_amount < _g(b.amount));
+        case Unit::KG:  return (_amount < _kg(b.amount));
+        case Unit::TON: return (_amount < _ton(b.amount));
+    }
+    cout << "arrived at a place that was not suppose to" << endl;
+    return false;
+}
+
+//Greater or equal operator:
+bool operator>= (const PhysicalNumber& b) {
+   return ((this>b) || (this==b));
+} 
+
+//Small or equal operator:
+bool operator<= (const PhysicalNumber& b) {
+   return ((this<b) || (this==b));
+} 
 
 /*~ Conversion functions: ~*/
 
