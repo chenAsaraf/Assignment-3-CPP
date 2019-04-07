@@ -42,6 +42,11 @@ namespace ariel{
         PhysicalNumber& operator-=(const PhysicalNumber& other);
         const PhysicalNumber& operator+(const double other);
         const PhysicalNumber& operator-(const double other);
+        bool operator== (const PhysicalNumber& b);
+        bool operator> (const PhysicalNumber& b);
+        bool operator< (const PhysicalNumber& b);
+        bool operator>= (const PhysicalNumber& b);
+        bool operator<= (const PhysicalNumber& b);
         
         //Conversions
         float _km(float kilometre);
