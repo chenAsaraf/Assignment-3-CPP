@@ -35,48 +35,29 @@ namespace ariel{
         friend istream& operator>> (istream& is, PhysicalNumber& num);\
 
 
-        bool IsKM() const;
-        bool IsM() const;
-        bool IsCM() const;
-        bool IsSEC() const;
-        bool IsMIN() const;
-        bool IsHOUR() const;
-        bool IsG() const;
-        bool IsKG() const;
-        bool IsTON() const;
-        
-        
+        //Operators
         const PhysicalNumber operator+(const PhysicalNumber& other);
         const PhysicalNumber operator-(const PhysicalNumber& other);
-        friend PhysicalNumber& operator+=(PhysicalNumber a ,const PhysicalNumber& other);
-        friend PhysicalNumber& operator-=(PhysicalNumber a ,const PhysicalNumber& other);
+        PhysicalNumber& operator+=(const PhysicalNumber& other);
+        PhysicalNumber& operator-=(const PhysicalNumber& other);
         const PhysicalNumber& operator+(const double other);
         const PhysicalNumber& operator-(const double other);
         
+        //Conversions
         float _km(float kilometre);
-        
         float _m(float metre);
-        
         float _cm(float centimetre);
-
         float _sec(float seconds);
-        
         float _min(float minute);
-        
         float _hour(float hour);
-        
         float _g(float gram);
-        
         float _kg(float kilogram);
-        
         float _ton(float tons);
         
     }; //end of PhysicalNumber
     
-    //Output operator
+    //Friend operators
     ostream& operator<< (ostream& os, const PhysicalNumber& num);
-    
-     //Input operator, example: istringstream input("700[kg]"); input >> a;
     istream& operator>> (istream& is, PhysicalNumber& num);
 
 }//end of namespace ariel
