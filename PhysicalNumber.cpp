@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include "PhysicalNumber.hpp"
+#include "PhysicalNumber.h"
 
 using namespace std;
 using ariel::Dimension, ariel::PhysicalNumber;
