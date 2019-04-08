@@ -26,20 +26,20 @@ istream& ariel::operator>> (istream& is, PhysicalNumber& num){
 }
 
 const PhysicalNumber ariel::PhysicalNumber::operator+(const PhysicalNumber& other) {
-        if ((int(other._unit))!=(int(this->_unit))) throw std::runtime_error("different units");
+        if ((int(other._unit)/3)!=(int(this->_unit))/3) throw std::runtime_error("different units");
         
         double curr_yahas = yahas[int(other._unit)]/yahas[int(this->_unit)];
         return PhysicalNumber(other._amount*curr_yahas+this->_amount,this->_unit);
 }
 const PhysicalNumber ariel::PhysicalNumber::operator-(const PhysicalNumber& other) {
-    if ((int(other._unit))!=(int(this->_unit))) throw std::runtime_error("different units");
+    if ((int(other._unit)/3)!=(int(this->_unit))/3) throw std::runtime_error("different units");
         
         double curr_yahas = yahas[int(other._unit)]/yahas[int(this->_unit)];
         return PhysicalNumber(other._amount*curr_yahas-this->_amount,this->_unit);
 }
 
 PhysicalNumber& PhysicalNumber::operator+=(const PhysicalNumber& other){
-    if ((int(other._unit))!=(int(this->_unit))) throw std::runtime_error("different units");
+    if ((int(other._unit)/3)!=(int(this->_unit))/3) throw std::runtime_error("different units");
         
         double curr_yahas = yahas[int(other._unit)]/yahas[int(this->_unit)];
         this->_amount = other._amount*curr_yahas+this->_amount;
@@ -47,7 +47,7 @@ PhysicalNumber& PhysicalNumber::operator+=(const PhysicalNumber& other){
 }
 
 PhysicalNumber& PhysicalNumber::operator-=(const PhysicalNumber& other){
-    if ((int(other._unit))!=(int(this->_unit))) throw std::runtime_error("different units");
+    if ((int(other._unit)/3)!=(int(this->_unit))/3) throw std::runtime_error("different units");
         
         double curr_yahas = yahas[int(other._unit)]/yahas[int(this->_unit)];
         this->_amount = other._amount*curr_yahas-this->_amount;
@@ -64,12 +64,12 @@ const PhysicalNumber ariel::PhysicalNumber::operator-() {
 }
 
 bool ariel::operator==(const PhysicalNumber& first,const PhysicalNumber& second){
-    if ((int(first._unit))!=(int(second._unit))) return false;
+    if ((int(first._unit)/3)!=(int(second._unit))/3) return false;
     return ((first._amount * int(first._unit) == (second._amount * int(second._unit))));
 }
 
 bool ariel::operator!=(const PhysicalNumber& first,const PhysicalNumber& second) {
-    if ((int(first._unit))!=(int(second._unit))) return true;
+    if ((int(first._unit)/3)!=(int(second._unit))/3) return true;
     return ((first._amount * int(first._unit) != (second._amount * int(second._unit))));
 }
 
