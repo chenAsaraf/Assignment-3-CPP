@@ -1,4 +1,3 @@
-
 #pragma once
 #include <iostream>
 #include <stdexcept>
@@ -26,46 +25,43 @@ namespace ariel{
        
        //for now public- later should be getters & setters
         Unit _unit;
-        float _amount;
+        double _amount;
         Dimension _dimension; //maby should implement in other way
         
         // Constructor:
-        PhysicalNumber(float amount, Unit some_unit);
+        PhysicalNumber(double amount, Unit some_unit);
         
         friend ostream& operator<<(ostream& os, const PhysicalNumber& num);
-        friend istream& operator>> (istream& is, PhysicalNumber& num);\
-
-
-        //Operators
+        friend istream& operator>> (istream& is, PhysicalNumber& num);
+        
         const PhysicalNumber operator+(const PhysicalNumber& other);
         const PhysicalNumber operator-(const PhysicalNumber& other);
-        PhysicalNumber& operator+=(const PhysicalNumber& other);
-        PhysicalNumber& operator-=(const PhysicalNumber& other);
-        const PhysicalNumber& operator+(const double other);
-        const PhysicalNumber& operator-(const double other);
-        PhysicalNumber operator- ();
-        PhysicalNumber operator+ ();
-        bool operator== (const PhysicalNumber& b);
-        bool operator> (const PhysicalNumber& b);
-        bool operator< (const PhysicalNumber& b);
-        bool operator>= (const PhysicalNumber& b);
-        bool operator<= (const PhysicalNumber& b);
+        PhysicalNumber& operator+=(const PhysicalNumber& x);
+        PhysicalNumber& operator-=(const PhysicalNumber& x);
+        const PhysicalNumber operator+();
+        const PhysicalNumber operator-();    
         
-        //Conversions
-        float _km(float kilometre);
-        float _m(float metre);
-        float _cm(float centimetre);
-        float _sec(float seconds);
-        float _min(float minute);
-        float _hour(float hour);
-        float _g(float gram);
-        float _kg(float kilogram);
-        float _ton(float tons);
-        
+
+
+        friend bool operator==(const PhysicalNumber& first,const PhysicalNumber& second);// Implement at .cpp file
+		friend bool operator!=(const PhysicalNumber& first,const PhysicalNumber& second);
+		friend bool operator>(const PhysicalNumber& first,const PhysicalNumber& second);
+		friend bool operator<(const PhysicalNumber& first,const PhysicalNumber& second); // Implement at .cpp file
+		friend bool operator>=(const PhysicalNumber& first,const PhysicalNumber& second);
+		friend bool operator<=(const PhysicalNumber& first,const PhysicalNumber& second);
+
+        //these are the situaltion where we do number++
+        const PhysicalNumber operator++(int);
+        const PhysicalNumber operator--(int);
+        //these are the situaltion where we do ++number
+        PhysicalNumber& operator++();
+        PhysicalNumber& operator--();
     }; //end of PhysicalNumber
     
-    //Friend operators
+    //Output operator
     ostream& operator<< (ostream& os, const PhysicalNumber& num);
+    
+     //Input operator, example: istringstream input("700[kg]"); input >> a;
     istream& operator>> (istream& is, PhysicalNumber& num);
 
 }//end of namespace ariel
