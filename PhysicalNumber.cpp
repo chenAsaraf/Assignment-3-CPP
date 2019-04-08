@@ -7,6 +7,7 @@ using ariel::Dimension, ariel::PhysicalNumber;
 
 bool ariel::notEquals(const Dimension& alpha ,const Dimension& beta){
     if(alpha!=beta) return true;
+    return false;
 }
 
 ariel::PhysicalNumber::PhysicalNumber(double amount, Unit some_unit){
