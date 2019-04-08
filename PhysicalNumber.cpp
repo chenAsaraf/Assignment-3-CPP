@@ -21,8 +21,22 @@ ostream& ariel::operator<<(ostream& os, const PhysicalNumber& num) {
 
     //Input operator, example: istringstream input("700[kg]"); input >> a;
 istream& ariel::operator>> (istream& is, PhysicalNumber& num){
-    is>> num._amount; //need to correct
-    return is;
+   std::string helper;
+   if (!(is>>num._amount)) throw std::runtime_error("the input is not valid");
+   else is>>helper;
+   int i = 0;
+   bool b = false;
+   while (i<9) {
+       i++;
+       if(helper.compare(type[i])==0)
+       {
+           num._unit=Unit(i);
+           i = 9;
+           b = true;
+       }
+   }
+   if(!b) throw runtime_error("the input is not valid");
+   return is;
 }
 
 const PhysicalNumber ariel::PhysicalNumber::operator+(const PhysicalNumber& other) {
@@ -65,40 +79,44 @@ const PhysicalNumber ariel::PhysicalNumber::operator-() {
 
 bool ariel::operator==(const PhysicalNumber& first,const PhysicalNumber& second){
     if ((int(first._unit)/3)!=(int(second._unit))/3) return false;
-    return ((first._amount * int(first._unit) == (second._amount * int(second._unit))));
+    return ((first._amount * yahas[int(first._unit)] == (second._amount * yahas[int(second._unit)])));
 }
 
 bool ariel::operator!=(const PhysicalNumber& first,const PhysicalNumber& second) {
     if ((int(first._unit)/3)!=(int(second._unit))/3) return true;
-    return ((first._amount * int(first._unit) != (second._amount * int(second._unit))));
+    return ((first._amount * yahas[int(first._unit)] != (second._amount * yahas[int(second._unit)])));
 }
 
 bool ariel::operator>(const PhysicalNumber& first,const PhysicalNumber& second){
     double x,y;
-    x = first._amount * int(first._unit);
-    y = second._amount * int(second._unit);
-    return x>y;
+    x = first._amount * yahas[int(first._unit)];
+    y = second._amount * yahas[int(second._unit)];
+    if(x>y) return true;
+    return false;
 }
 
 bool ariel::operator<(const PhysicalNumber& first,const PhysicalNumber& second){
     double x,y;
-    x = first._amount * int(first._unit);
-    y = second._amount * int(second._unit);
-    return x<y;
+    x = first._amount * yahas[int(first._unit)];
+    y = second._amount * yahas[int(second._unit)];
+    if(x<y) return true;
+    return false;
 }
 
 bool ariel::operator>=(const PhysicalNumber& first,const PhysicalNumber& second){
     double x,y;
-    x = first._amount * int(first._unit);
-    y = second._amount * int(second._unit);
-    return x>=y;
+    x = first._amount * yahas[int(first._unit)];
+    y = second._amount * yahas[int(second._unit)];
+    if(x>=y) return true;
+    return false;
 }
 
 bool ariel::operator<=(const PhysicalNumber& first,const PhysicalNumber& second){
     double x,y;
-    x = first._amount * int(first._unit);
-    y = second._amount * int(second._unit);
-    return x<=y;
+    x = first._amount * yahas[int(first._unit)];
+    y = second._amount * yahas[int(second._unit)];
+    if(x<=y) return true;
+    return false;
 }
 
 const PhysicalNumber PhysicalNumber::operator++(int){
