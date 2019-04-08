@@ -1,21 +1,13 @@
-#pragma once
-#include <iostream>
+#ifndef UNIT_H
+#define UNIT_H
+#include <string>
 
-namespace ariel{
-    enum class Unit: int{
-        //Length
-        KM, //Kilometer=0 By deafult
-        M, //Meter=1
-        CM, //=2
-        //Time
-        SEC, //=3
-        MIN, //=4
-        HOUR, //=5
-        //Weight
-        G, //=6
-        KG, //=7
-        TON //=8
-    };
-    
-    
+namespace ariel {	
+		enum class Unit{
+			 CM,M,KM,SEC,MIN,HOUR,G,KG,TON
+		};
+		const static double yahas[9] = {1,100,100000,1,60,3600,1,1000,1000000};
+	    const static std::string type[9] = {"[cm]","[m]","[km]","[sec]","[min]","[hour]","[g]","[kg]","[ton]"};
 }
+
+#endif
